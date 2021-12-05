@@ -7,16 +7,19 @@ from .forms import PostForm
 
 
 def post_list(request):
+    """Displays all posts on the main page."""
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     return render(request, 'my_blog/post_list.html', {'posts': posts})
 
 
 def post_detail(request, pk):
+    """view a specific post."""
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'my_blog/post_detail.html', {'post': post})
 
 
 def post_new(request):
+    """View for creating a new post."""
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
@@ -31,6 +34,7 @@ def post_new(request):
 
 
 def post_edit(request, pk):
+    """View for editing post."""
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
